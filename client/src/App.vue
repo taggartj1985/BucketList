@@ -61,7 +61,9 @@ export default {
       // }
       addToBucketList(event){
 			const newVisit = {
-				name: this.selectedCountry.name
+				name: this.selectedCountry.name,
+        flag: this.selectedCountry.flag,
+        visit: false
 			}
 			console.log(newVisit);
 			BucketService.postVisit(newVisit)
