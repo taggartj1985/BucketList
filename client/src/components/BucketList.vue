@@ -8,13 +8,30 @@
 </template>
 
 <script>
+import {eventBus} from '@/main.js'
+import BucketService from '@/services/BucketService.js'
+
 export default {
   name: 'bucket-list',
   props: ['bucketList'],
-  methods: {
-    updateList(){
 
+// mounted:{
+//   eventBus.$on('visit-updated', (newVisit) => {
+//   this.bucketList.push(newVisit)
+//   });
+// },
+
+  methods: {
+    updateList(country){
+    const updateCountry = {
+      name: country.name,
+      flag: country.flag,
+      visit: true
     }
+    console.log(updateCountry);
+    BucketService.updateCountry(country._id, updateCountry)
+    .then((country) => eventBus.$emit('visit-updated', country))
+  }
   }
 }
 </script>

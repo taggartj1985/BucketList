@@ -46,9 +46,9 @@ export default {
       this.bucketList.push(newVisit)
       });
 
-      eventBus.$on('visit-updated', (updateList) => {
-      let index = this.countries.findIndex(country => country._id === updateList._id)
-      this.countries.splice(index, 1, updateList)
+      eventBus.$on('visit-updated', (updateCountry) => {
+      let index = this.bucketList.findIndex(country => country._id === updateCountry._id)
+      this.bucketlist.splice(index, 1, updateCountry)
     })
     },
     methods: {
@@ -71,7 +71,9 @@ export default {
 			console.log(newVisit);
 			BucketService.postVisit(newVisit)
 			.then(visit => eventBus.$emit('visit-added', visit))
-		}
+		},
+
+
     }
 }
 </script>
