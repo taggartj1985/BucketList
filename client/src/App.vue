@@ -41,6 +41,10 @@ export default {
       eventBus.$on('country-selected', (country) => {
         this.selectedCountry = country;
       })
+
+      eventBus.$on('visit-added', (newVisit) => {
+      this.bucketList.push(newVisit)
+      });
     },
     methods: {
       getCountries(){
@@ -52,9 +56,17 @@ export default {
         BucketService.getBucketList()
         .then(bucketList => this.bucketList = bucketList)
       },
-      addToBucketList(){
-        this.bucketList.push(this.selectedCountry)
-      }
+      // addToBucketList(){
+      //   this.bucketList.push(this.selectedCountry)
+      // }
+      addToBucketList(event){
+			const newVisit = {
+				name: this.selectedCountry.name
+			}
+			console.log(newVisit);
+			BucketService.postVisit(newVisit)
+			.then(visit => eventBus.$emit('visit-added', visit))
+		}
     }
 }
 </script>
