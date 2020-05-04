@@ -45,6 +45,11 @@ export default {
       eventBus.$on('visit-added', (newVisit) => {
       this.bucketList.push(newVisit)
       });
+
+      eventBus.$on('visit-updated', (updateList) => {
+      let index = this.countries.findIndex(country => country._id === updateList._id)
+      this.countries.splice(index, 1, updateList)
+    })
     },
     methods: {
       getCountries(){
@@ -56,9 +61,7 @@ export default {
         BucketService.getBucketList()
         .then(bucketList => this.bucketList = bucketList)
       },
-      // addToBucketList(){
-      //   this.bucketList.push(this.selectedCountry)
-      // }
+
       addToBucketList(event){
 			const newVisit = {
 				name: this.selectedCountry.name,
