@@ -25,10 +25,10 @@ const createRouter = function (collection) {
 
   router.put('/:id', (req,res) => {
     const id = req.params.id;
-    const updatedVisit = req.body;
+    const updatedCountry = req.body;
     collection.findOneAndUpdate(
       {_id: ObjectID(id)},
-      {$set: updatedVisit},
+      {$set: updatedCountry},
       {returnOriginal: false}
     )
     .then(result => res.json(result.value))

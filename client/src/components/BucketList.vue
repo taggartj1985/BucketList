@@ -2,7 +2,8 @@
   <div id="favourite_countries">
     <h2>Bucket List</h2>
     <ul>
-      <li v-for="country in bucketList">{{country.name}} <img class="small-flag" :src="country.flag"/> <button v-on:click="updateList(country)">Visit!</button></li>
+      <li :class="country.visited ? 'visited' : 'not-visited'" v-for="country in bucketList">{{country.name}} <img class="small-flag" :src="country.flag"/>
+        <button v-if="!country.visited" v-on:click="updateList(country)">Visit!</button></li>
     </ul>
   </div>
 </template>
@@ -16,25 +17,33 @@ export default {
   props: ['bucketList'],
 
 // mounted:{
-//   eventBus.$on('visit-updated', (newVisit) => {
-//   this.bucketList.push(newVisit)
+//   eventBus.$on('visit-updated', (updateCountry) => {
+//   this.bucketList.push(updateCountry)
 //   });
 // },
 
   methods: {
     updateList(country){
-    const updateCountry = {
-      name: country.name,
-      flag: country.flag,
-      visit: true
+    const updatedItem = {
+      // name: country.name,
+      // flag: country.flag,
+      visited: true
     }
-    console.log(updateCountry);
-    BucketService.updateCountry(country._id, updateCountry)
-    .then((country) => eventBus.$emit('visit-updated', country))
+    console.log(updatedItem);
+    BucketService.updateList(country._id, updatedItem)
+    .then(updatedCountry => eventBus.$emit('country-updated', updatedCountry))
   }
   }
 }
 </script>
 
 <style lang="css" scoped>
+
+.visited {
+  color: green;
+}
+
+.not-visited {
+  color: red;
+}
 </style>

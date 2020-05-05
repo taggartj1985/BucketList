@@ -7,7 +7,8 @@
     <country-detail v-if="selectedCountry" :selectedCountry="selectedCountry">
     </country-detail>
 
-    <button v-if="!bucketList.includes(selectedCountry) && selectedCountry" v-on:click="addToBucketList">Add Country</button>
+    <button v-if="selectedCountry && !bucketList.some(country => country.name === selectedCountry.name)"
+    v-on:click="addToBucketList">Add Country</button>
 
     <bucket-list :bucketList="bucketList"></bucket-list>
 </div>
@@ -46,10 +47,11 @@ export default {
       this.bucketList.push(newVisit)
       });
 
-      eventBus.$on('visit-updated', (updateCountry) => {
-      let index = this.bucketList.findIndex(country => country._id === updateCountry._id)
-      this.bucketlist.splice(index, 1, updateCountry)
+      eventBus.$on('country-updated', (country) => {
+      let index = this.bucketList.findIndex(bucketItem => bucketItem._id === country._id)
+      this.bucketList.splice(index, 1, country)
     })
+
     },
     methods: {
       getCountries(){
@@ -66,11 +68,13 @@ export default {
 			const newVisit = {
 				name: this.selectedCountry.name,
         flag: this.selectedCountry.flag,
-        visit: false
+        visited: false
 			}
 			console.log(newVisit);
 			BucketService.postVisit(newVisit)
-			.then(visit => eventBus.$emit('visit-added', visit))
+			// .then(visit => eventBus.$emit('visit-added', visit))
+      // this means i don't need the event emit on
+      .then(visit => this.bucketList.push(visit))
 		},
 
 

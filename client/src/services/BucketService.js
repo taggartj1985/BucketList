@@ -7,7 +7,7 @@ export default {
   },
 
   postVisit(payload){
-    return fetch(baseURL, {
+    return fetch(baseUrl, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {'Content-Type': 'application/json'}
@@ -15,8 +15,8 @@ export default {
     .then(res => res.json())
   },
 
-  updateCountry(id, payload){
-    return fetch(baseURL + id, {
+  updateList(id, payload){
+    return fetch(baseUrl + id, {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: {'Content-Type': 'application/json'}
